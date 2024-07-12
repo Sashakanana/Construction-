@@ -1,0 +1,23 @@
+from pickle import load
+import streamlit as st
+
+model=load(open("../models/decision_tree_pkl_filename", "rb"))
+class_dict={
+      "0":"built_area",
+      "2":"modul_price",
+      "3":"weeks_delay",
+      "4":"weeks_duration",
+      "5":"weeks_productive"
+}
+st.title("Iris - Model prediction")
+
+val1 = st.slider("Built_area", min_value = 0.0, max_value = 30.0, step = 0.1)
+val2 = st.slider("Modul_price", min_value = 0.0, max_value = 300.0, step = 0.1)
+val3 = st.slider("Weeks_delay", min_value = 0.0, max_value = 12.0, step = 0.1)
+val4 = st.slider("Weeks_duration", min_value = 0.0, max_value = 30.0, step = 0.1)
+val5 = st.slider("Weeks_productive", min_value = 0.0, max_value = 30.0, step = 0.1)
+
+if st.button("Predict"):
+    prediction = str(model.predict([[val1, val2, val3, val4, val5]])[0])
+    pred_class = class_dict[prediction]
+    st.write("Prediction:", pred_class)
